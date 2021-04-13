@@ -7,7 +7,7 @@ from config import cfg
 
 class CouplingLayer(nn.Module):
     
-    def __init__(self, data_dim, hidden_dim, mask, num_layers=4):
+    def __init__(self, data_dim, hidden_dim, mask, num_layers=4): # 这里的num_layers 是全连接的层数
         '''
         NICE论文中的第3.2节         general coupling
         data_dim    数据维度
@@ -75,8 +75,8 @@ class ScalingLayer(nn.Module):
         logdet      行列式的对数
         invert      正向训练还是反向生成
         '''
-        # 尺度变换层的雅克比行列式，就是其对角阵 
-        log_det_jacobian = torch.sum(self.log_scale_vector)  # 独立分量 log后可相加
+        # 尺度变换层的雅克比行列式，就是其对角阵元素之积  log_scale_vector [1, 784]
+        log_det_jacobian = torch.sum(self.log_scale_vector)  # 因为是独立分量 log后可相加
         
         if invert:
             return torch.exp(- self.log_scale_vector) * x, logdet - log_det_jacobian
@@ -89,7 +89,7 @@ class LogisticDistribution(Distribution):
         super().__init__()
 
     def log_prob(self, x):
-        return -(F.softplus(x) + F.softplus(-x))
+        return -(F.softplus(x) + F.softplus(-x))      # - 1/b * [ log(1+e^(b*x)) + * log(1+e^(b*-x)) ]
 
     def sample(self, size):
         # 采样 用于生成

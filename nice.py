@@ -32,7 +32,7 @@ class NICE(nn.Module): # 继承自nn.Module类。
 
     def forward(self, x, invert=False):
         if not invert: #正向
-            z, log_det_jacobian = self.f(x) # 输入真实数据
+            z, log_det_jacobian = self.f(x) # 输入真实数据 输出过一次flow的结果
             log_likelihood = torch.sum(self.prior.log_prob(z), dim=1) + log_det_jacobian
             return z, log_likelihood
         
@@ -44,8 +44,8 @@ class NICE(nn.Module): # 继承自nn.Module类。
         log_det_jacobian = 0    # 雅克比矩阵的行列式的对数
         for i, coupling_layer in enumerate(self.coupling_layers):     # 过耦合层
             z, log_det_jacobian = coupling_layer(z, log_det_jacobian)
-        z, log_det_jacobian = self.scaling_layer(z, log_det_jacobian) # 过尺度变化层
-        return z, log_det_jacobian
+        z_s, log_det_jacobian = self.scaling_layer(z, log_det_jacobian) # 过尺度变化层
+        return z_s, log_det_jacobian
 
 
     def f_inverse(self, z):

@@ -42,9 +42,7 @@ for epoch in range(cfg['TRAIN_EPOCHS']):
 
     for batch_id, (x, _) in enumerate(dataloader): # 取出输入数据 x （256，1，28，28）
         # x (256, 784) 因为channel为1 
-        x = x.view(-1, 784)
-        tmp = torch.rand(784) / 256.
-        x = x + tmp         
+        x = x.view(-1, 784) + torch.rand(784) / 256. 
 
         if cfg['USE_CUDA']: # 转到cuda
             x = x.cuda()
