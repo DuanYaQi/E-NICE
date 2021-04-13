@@ -5,7 +5,7 @@ from torch.distributions import Distribution, Uniform
 from config import cfg
 
 
-class CouplingLayer(nn.modules):
+class CouplingLayer(nn.Module):
     
     def __init__(self, data_dim, hidden_dim, mask, num_layers=4):
         '''
@@ -15,7 +15,7 @@ class CouplingLayer(nn.modules):
         mask        遮蔽模板
         num_layers  耦合次数
         '''
-        super.__init__()
+        super().__init__()
 
         assert data_dim % 2 == 0  #断言数据维度都是偶数 方便后边切割
 
@@ -56,7 +56,7 @@ class CouplingLayer(nn.modules):
         return x1 + x2, logdet
 
 
-class ScalingLayer(nn.modules):
+class ScalingLayer(nn.Module):
     
     def __init__(self, data_dim):
         '''
@@ -83,9 +83,9 @@ class ScalingLayer(nn.modules):
 
         return torch.exp(self.log_scale_vector) * x, logdet + log_det_jacobian
        
-class LogisticDistribution(nn.modules):
+class LogisticDistribution(Distribution):
 
-    def __init__(self, data_dim):
+    def __init__(self):
         super().__init__()
 
     def log_prob(self, x):

@@ -10,7 +10,7 @@ from modules import CouplingLayer, ScalingLayer, LogisticDistribution
 
 class NICE(nn.Module): # 继承自nn.Module类。
     def __init__(self, data_dim, num_coupling_layers=3):
-        super.__init__()   # 继承父类的__init__()方法
+        super().__init__()   # 继承父类的__init__()方法
 
         self.data_dim = data_dim
 

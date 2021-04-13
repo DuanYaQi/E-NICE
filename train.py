@@ -41,11 +41,14 @@ for epoch in range(cfg['TRAIN_EPOCHS']):
     num_minibatches = 0
 
     for batch_id, (x, _) in enumerate(dataloader):
-        x = x.view(-1, 784) + torch.rand(784) / 256.
-        if cfg['USE_CUDA']:
+        x = x.view(-1, 784)
+        tmp = torch.rand(784) / 256.
+        x = x + tmp
+
+        if cfg['USE_CUDA']: # 转到cuda
             x = x.cuda()
 
-        x = torch.clamp(x, 0, 1)
+        x = torch.clamp(x, 0, 1) # 限制x的范围为0, 1
         
         z, likelihood = model(x)
         loss = -torch.mean(likelihood)
