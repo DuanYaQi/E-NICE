@@ -1,6 +1,9 @@
 import torch
 import torch.nn as nn
-import torch.nn.functional as float
+import torch.nn.functional as F
+from torch.distributions import Distribution, Uniform
+from config import cfg
+
 
 class CouplingLayer(nn.modules):
     
@@ -60,7 +63,8 @@ class ScalingLayer(nn.modules):
         NICE论文中的第3.3节         尺度变换层
         '''
         super().__init__()
-        # 随机标准正态分布   aize [1, data_dim]
+
+        # 随机标准正态分布   size [1, data_dim]
         self.log_scale_vector = nn.Parameter(torch.randn(1 ,
                                                         data_dim, 
                                                         requires_grad=True))
@@ -71,6 +75,7 @@ class ScalingLayer(nn.modules):
         logdet      行列式的对数
         invert      正向训练还是反向生成
         '''
+        # 尺度变换层的雅克比行列式，就是其对角阵
         log_det_jacobian = torch.sum(self.log_scale_vector)
         
         if invert:
@@ -78,3 +83,19 @@ class ScalingLayer(nn.modules):
 
         return torch.exp(self.log_scale_vector) * x, logdet + log_det_jacobian
        
+class LogisticDistribution(nn.modules):
+
+    def __init__(self, data_dim):
+        super().__init__()
+
+    def log_prob(self, x):
+        return -(F.softplus(x) + F.softplus(-x))
+
+    def sample(self, size):
+        # 采样 用于生成
+        if cfg['USE_CUDA']:
+            z = Uniform(torch.cuda.FloatTensor([0.]), torch.cuda.FloatTensor([1.])).sample(size)
+        else:
+            z = Uniform(torch.FloatTensor([0.]), torch.FloatTensor([1.])).sample(size)
+
+        return torch.log(z) - torch.log(1. - z)
