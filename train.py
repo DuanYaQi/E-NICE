@@ -40,15 +40,16 @@ for epoch in range(cfg['TRAIN_EPOCHS']):
     mean_likelihood = 0.0
     num_minibatches = 0
 
-    for batch_id, (x, _) in enumerate(dataloader):
+    for batch_id, (x, _) in enumerate(dataloader): # 取出输入数据 x （256，1，28，28）
+        # x (256, 784) 因为channel为1 
         x = x.view(-1, 784)
         tmp = torch.rand(784) / 256.
-        x = x + tmp
+        x = x + tmp         
 
         if cfg['USE_CUDA']: # 转到cuda
             x = x.cuda()
 
-        x = torch.clamp(x, 0, 1) # 限制x的范围为0, 1
+        x = torch.clamp(x, 0, 1) # 将input张量每个元素的夹紧到区间 [0, 1]
         
         z, likelihood = model(x)
         loss = -torch.mean(likelihood)

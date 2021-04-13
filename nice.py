@@ -9,10 +9,10 @@ from modules import CouplingLayer, ScalingLayer, LogisticDistribution
 
 
 class NICE(nn.Module): # 继承自nn.Module类。
-    def __init__(self, data_dim, num_coupling_layers=3):
+    def __init__(self, data_dim, num_coupling_layers=3):# 耦合层3层
         super().__init__()   # 继承父类的__init__()方法
 
-        self.data_dim = data_dim
+        self.data_dim = data_dim # 数据维度 784
 
         # 连续耦合层的交替遮罩方向
         masks = [self.__get_mask(data_dim, orientation=(i % 2 == 0))
@@ -32,7 +32,7 @@ class NICE(nn.Module): # 继承自nn.Module类。
 
     def forward(self, x, invert=False):
         if not invert: #正向
-            z, log_det_jacobian = self.f(x)
+            z, log_det_jacobian = self.f(x) # 输入真实数据
             log_likelihood = torch.sum(self.prior.log_prob(z), dim=1) + log_det_jacobian
             return z, log_likelihood
         
@@ -40,8 +40,8 @@ class NICE(nn.Module): # 继承自nn.Module类。
 
 
     def f(self, x):
-        z = x
-        log_det_jacobian = 0
+        z = x                   # 保证维数相同
+        log_det_jacobian = 0    # 雅克比矩阵的行列式的对数
         for i, coupling_layer in enumerate(self.coupling_layers):     # 过耦合层
             z, log_det_jacobian = coupling_layer(z, log_det_jacobian)
         z, log_det_jacobian = self.scaling_layer(z, log_det_jacobian) # 过尺度变化层
@@ -64,7 +64,7 @@ class NICE(nn.Module): # 继承自nn.Module类。
 
     def __get_mask(self, dim, orientation=True):
         mask = np.zeros(dim)    # 按照维度创建
-        mask[::2] = 1.          # list[start:end:step] start:默认起始位置 end:默认结束位置 step:默认步长为1
+        mask[::2] = 1.          # list[start:end:step] start:默认起始位置 end:默认结束位置 step:默认步长为1 中间隔1个step赋值 [0 1 0 1 0 1] 
         if orientation:         # 直接反转
             mask = 1. - mask
         mask = torch.tensor(mask) # 转张量

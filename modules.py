@@ -21,7 +21,7 @@ class CouplingLayer(nn.Module):
 
         self.mask = mask   
 
-        modules = [nn.Linear(data_dim, hidden_dim), nn.LeakyReLU(0.2)]  # 线性层+leakyrelu激活函数
+        modules = [nn.Linear(data_dim, hidden_dim), nn.LeakyReLU(0.2)]  # 线性层+leakyrelu激活函数 784维升到1000维度
 
         for i in range(num_layers - 2):
             modules.append(nn.Linear(hidden_dim, hidden_dim))
@@ -75,8 +75,8 @@ class ScalingLayer(nn.Module):
         logdet      行列式的对数
         invert      正向训练还是反向生成
         '''
-        # 尺度变换层的雅克比行列式，就是其对角阵
-        log_det_jacobian = torch.sum(self.log_scale_vector)
+        # 尺度变换层的雅克比行列式，就是其对角阵 
+        log_det_jacobian = torch.sum(self.log_scale_vector)  # 独立分量 log后可相加
         
         if invert:
             return torch.exp(- self.log_scale_vector) * x, logdet - log_det_jacobian
