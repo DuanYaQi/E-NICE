@@ -7,7 +7,7 @@ PyTorch implementation of NICE: NON-LINEAR INDEPENDENT COMPONENTS ESTIMATION
 ```python
 input 	[1, 784]
 output 	[1, 784]
-four coupling layer + one scaling layer
+4 coupling layer + 1 scaling layer
 ----------------------------------------------------------------
         Layer (type)               Output Shape         Param #
 ================================================================
@@ -79,7 +79,7 @@ Estimated Total Size (MB): 85.390259
 ```python
 input 	[1, 784]
 output 	[1, 784]
-5个全连接层-leakyrelu + 1个全连接层
+5 Fully Connection Layer -leakyrelu + 1 Fully Connection Layer
 ----------------------------------------------------------------
         Layer (type)               Output Shape         Param #
 ================================================================
