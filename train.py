@@ -3,7 +3,10 @@ import torch
 from config import cfg
 import torch.optim as optim
 from torchvision import transforms, datasets
-
+from torch.utils.tensorboard import SummaryWriter
+# 默认创建目录 ./runs 
+writer = SummaryWriter() 
+# 执行命令 tensorboard --logdir ./runs
 
 from nice import NICE
 
@@ -60,6 +63,7 @@ for epoch in range(cfg['TRAIN_EPOCHS']):
         num_minibatches += 1
 
     mean_likelihood /= num_minibatches
+    writer.add_scalar('training loss', mean_likelihood, epoch)
     print('Epoch {} completed. Log Likelihood :{}'.format(epoch, mean_likelihood))
 
     if epoch % 5 == 0:

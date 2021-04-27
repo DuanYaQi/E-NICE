@@ -71,13 +71,14 @@ Forward/backward pass size (MB): 0.335083
 Params size (MB): 85.052185
 Estimated Total Size (MB): 85.390259
 ----------------------------------------------------------------
-
+```
 
 
 
 
 其中coupling_layer 流程为
 
+```python
 input 	[1, 784]
 output 	[1, 784]
 5个全连接层-leakyrelu + 1个全连接层
@@ -105,3 +106,4 @@ Forward/backward pass size (MB): 0.082275
 Params size (MB): 21.262299
 Estimated Total Size (MB): 21.347565
 ----------------------------------------------------------------
+```

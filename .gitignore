@@ -1,2 +1,4 @@
-.vscode/*
+.vscode
 __pycache__
+saved_models/*
+runs/

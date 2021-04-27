@@ -84,12 +84,16 @@ class ScalingLayer(nn.Module):
         return torch.exp(self.log_scale_vector) * x, logdet + log_det_jacobian
        
 class LogisticDistribution(Distribution):
-
+    '''
+    3.4小节中的公式log(p(Hd))
+    '''
     def __init__(self):
         super().__init__()
 
     def log_prob(self, x):
-        return -(F.softplus(x) + F.softplus(-x))      # - 1/b * [ log(1+e^(b*x)) + * log(1+e^(b*-x)) ]
+        # - 1/b * [ log(1+e^(b*x)) + * log(1+e^(b*-x)) ] beta 默认为 1
+        # - [ log(1+e^(x)) + * log(1+e^(-x)) ] 
+        return -(F.softplus(x) + F.softplus(-x))     
 
     def sample(self, size):
         # 采样 用于生成
