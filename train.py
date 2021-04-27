@@ -59,6 +59,9 @@ def test(model, dataloader, args):
     for epoch in range(args.TRAIN_EPOCHS):
         mean_likelihood = 0.0
         num_minibatches = 0
+        with torch.no_grad():
+            samples = model.sample(100).cpu()
+        
 
         for batch_id, (x, _) in enumerate(dataloader): # 取出输入数据 x （256，1，28，28）
             # x (256, 784) 因为channel为1 
