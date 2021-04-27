@@ -1,14 +1,13 @@
 # E-NICE
 PyTorch implementation of NICE: NON-LINEAR INDEPENDENT COMPONENTS ESTIMATION
 
-
-总维度变换流程
+## Overrall Dimension Processing
 
 
 ```python
 input 	[1, 784]
 output 	[1, 784]
-4个coupling layer + 1个scaling layer
+four coupling layer + one scaling layer
 ----------------------------------------------------------------
         Layer (type)               Output Shape         Param #
 ================================================================
@@ -75,8 +74,7 @@ Estimated Total Size (MB): 85.390259
 
 
 
-
-其中coupling_layer 流程为
+## Coupling_layer Dimension Processing
 
 ```python
 input 	[1, 784]
@@ -106,4 +104,15 @@ Forward/backward pass size (MB): 0.082275
 Params size (MB): 21.262299
 Estimated Total Size (MB): 21.347565
 ----------------------------------------------------------------
+```
+
+
+## Loss Visulization in real-time
+
+```python
+from torch.utils.tensorboard import SummaryWriter
+# default dir ./runs 
+writer = SummaryWriter() 
+# run
+$ tensorboard --logdir ./runs
 ```

@@ -3,15 +3,14 @@ import torch
 from argparse import ArgumentParser
 import torch.optim as optim
 from torchvision import transforms, datasets
+from nice import NICE
 from torch.utils.tensorboard import SummaryWriter
 # 默认创建目录 ./runs 
 writer = SummaryWriter() 
 # 执行命令 tensorboard --logdir ./runs
 
-from nice import NICE
-
 # PyTorch implementation of NICE
-
+# -----------------------------------------------------------------------------------------
 def train(model, dataloader, args, continueIndex):
     # 训练模型
     model.train()
@@ -52,6 +51,7 @@ def train(model, dataloader, args, continueIndex):
                 save_path = os.path.join(args.MODEL_SAVE_PATH, '{}.pt'.format(epoch))
             torch.save(model.state_dict(), save_path)
 
+# -----------------------------------------------------------------------------------------
 def test(model, dataloader, args):
     # 训练模型
     model.eval()
