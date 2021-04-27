@@ -79,7 +79,7 @@ Estimated Total Size (MB): 85.390259
 ```python
 input 	[1, 784]
 output 	[1, 784]
-5 Fully Connection Layer -leakyrelu + 1 Fully Connection Layer
+5 FCN-leakyrelu + 1 FCN(Fully Connection Layer)
 ----------------------------------------------------------------
         Layer (type)               Output Shape         Param #
 ================================================================
