@@ -5,9 +5,7 @@ import torch.optim as optim
 from torchvision import transforms, datasets
 from nice import NICE
 from torch.utils.tensorboard import SummaryWriter
-# 默认创建目录 ./runs 
 writer = SummaryWriter() 
-# 执行命令 tensorboard --logdir ./runs
 
 # PyTorch implementation of NICE
 # -----------------------------------------------------------------------------------------
